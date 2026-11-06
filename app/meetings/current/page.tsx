@@ -1,7 +1,9 @@
+import { connection } from "next/server";
 import { redirect } from 'next/navigation';
 import type { SacramentMeeting } from '@/lib/types';
 
 async function fetchCurrentMeeting(): Promise<SacramentMeeting | null> {
+  await connection();
   const today = new Date();
   const dayOfWeek = today.getDay();
   const sunday = new Date(today);
