@@ -8,7 +8,8 @@ async function fetchMeeting(id: string): Promise<SacramentMeeting | null> {
   return res.json();
 }
 
-export default async function MeetingPage({ params }: { params: { id: string } }) {
+export default async function MeetingPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const meeting = await fetchMeeting(params.id);
 
   if (!meeting) {
