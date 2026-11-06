@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import NavLinks from '@/components/NavLinks';
 
 export default function MeetingsLayout({
@@ -7,7 +8,7 @@ export default function MeetingsLayout({
 }) {
   return (
     <div>
-      <NavLinks />
+      <Suspense fallback={null}><NavLinks /></Suspense>
       {children}
     </div>
   );

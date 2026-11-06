@@ -1,11 +1,9 @@
 import { getMeetingById } from '@/lib/meetings-db';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const id = Number(params.id);
+export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
+  const id = Number((await params).id);
 
   if (isNaN(id)) {
     return NextResponse.json({ error: 'Invalid ID parameter' }, { status: 400 });
