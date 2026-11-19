@@ -102,3 +102,35 @@ export function getMeetings(date?: string | null): SacramentMeeting[] {
 export function getMeetingById(id: number): SacramentMeeting | null {
   return meetings.find(m => m.id === id) ?? null;
 }
+
+export type MeetingMutationInput = Omit<SacramentMeeting, 'id'>;
+
+export async function createMeetingInDb(data: MeetingMutationInput): Promise<SacramentMeeting> {
+  const nextId = meetings.length > 0 ? Math.max(...meetings.map((m) => m.id)) + 1 : 1;
+  const newMeeting: SacramentMeeting = {
+    id: nextId,
+    ...data,
+  };
+  meetings.push(newMeeting);
+  return newMeeting;
+}
+
+export async function updateMeetingInDb(
+  id: number,
+  data: MeetingMutationInput
+): Promise<SacramentMeeting | null> {
+  const index = meetings.findIndex((m) => m.id === id);
+  if (index === -1) return null;
+  meetings[index] = {
+    id,
+    ...data,
+  };
+  return meetings[index];
+}
+
+export async function deleteMeetingInDb(id: number): Promise<boolean> {
+  const index = meetings.findIndex((m) => m.id === id);
+  if (index === -1) return false;
+  meetings.splice(index, 1);
+  return true;
+}
