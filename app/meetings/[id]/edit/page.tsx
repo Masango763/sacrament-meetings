@@ -6,7 +6,13 @@ export default async function EditMeetingPage(props: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await props.params;
-  const meeting = await getMeetingById(id);
+  const numericId = Number(id);
+
+  if (!Number.isInteger(numericId) || numericId <= 0) {
+    notFound();
+  }
+
+  const meeting = getMeetingById(numericId);
 
   if (!meeting) {
     notFound();
